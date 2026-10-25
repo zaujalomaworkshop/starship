@@ -1,0 +1,834 @@
+<!doctype html>
+<html lang="sk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Starship – najväčšia raketa SpaceX</title>
+<meta name="description" content="Čo je SpaceX Starship, z čoho sa skladá, harmonogram testovacích letov a video z posledného štartu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  // Jemný pohyb zapneme len vtedy, keď používateľ nemá zapnuté obmedzenie pohybu.
+  if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    document.documentElement.classList.add("motion");
+  }
+  // Ak sa fotka nenačíta zo súboru, skúsi sa web adresa z Wikimedia Commons.
+  // Ak zlyhá aj tá, namiesto fotky sa ukáže SVG ilustrácia.
+  function photoFallback(img) {
+    if (img.dataset.remote && !img.dataset.tried) {
+      img.dataset.tried = "1";
+      img.src = img.dataset.remote;
+    } else {
+      img.closest(".photo").classList.add("is-fallback");
+    }
+  }
+</script>
+<style>
+  :root {
+    /* Štýl B – svetlý editoriál */
+    --bg: #FAF7F2;
+    --surface: #FFFFFF;
+    --text: #1A1A1A;
+    --muted: #6B6660;
+    --accent: #C2410C;
+    --accent-2: #9A3412;
+    --on-accent: #FFFFFF;
+    --line: #E3DDD3;
+    --header-bg: rgba(250, 247, 242, .82);
+    --veil: rgba(26, 26, 26, .55);
+    /* Farby ilustrácií */
+    --steel: #C9C4BB;
+    --steel-light: #EEEBE5;
+    --shield: #2B2724;
+    --flap: #57514A;
+    --metal-dark: #807A71;
+    --fb-sky: #EFE9DF;
+
+    --serif: "Fraunces", Georgia, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    --space: clamp(64px, 9vw, 128px);
+    --gutter: clamp(20px, 4vw, 48px);
+    --ease: cubic-bezier(.2, .7, .2, 1);
+  }
+  * { box-sizing: border-box; }
+  html { background: var(--bg); }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: clamp(17px, .3vw + 16px, 18px);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--accent); text-underline-offset: 3px; text-decoration-thickness: 1px; transition: color .15s; }
+  a:hover { color: var(--accent-2); }
+  a:focus-visible, .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+  .wrap { max-width: 1280px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* Hlavička */
+  .site-header { position: fixed; top: 0; left: 0; right: 0; z-index: 50; border-bottom: 1px solid transparent; transition: background-color .3s, border-color .3s; }
+  .site-header.scrolled { background: var(--header-bg); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-bottom-color: var(--line); }
+  .site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 60px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; min-height: 44px; font-family: var(--serif); font-weight: 600; font-size: 21px; color: var(--text); text-decoration: none; }
+  .logo:hover { color: var(--text); }
+  .logo svg { width: 22px; height: 22px; }
+  .logo svg path { stroke: var(--text); }
+  .logo svg .flame { fill: var(--accent); stroke: none; }
+  .nav { display: flex; gap: 4px; padding: 0 6px; border-radius: 999px; background: var(--header-bg); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+  .site-header.scrolled .nav { background: transparent; -webkit-backdrop-filter: none; backdrop-filter: none; }
+  .nav a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 12px; color: var(--muted); text-decoration: none; font-size: 15px; font-weight: 500; }
+  .nav a:hover { color: var(--text); }
+
+  /* Tlačidlá */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 26px; border-radius: 999px; font-family: var(--sans); font-size: 16px; font-weight: 600; text-decoration: none; border: 1px solid transparent; transition: transform .15s var(--ease), background-color .15s, color .15s, border-color .15s; }
+  .btn svg { width: 16px; height: 16px; flex: none; }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { background: var(--accent-2); color: var(--on-accent); transform: translateY(-2px); }
+  .btn-secondary { background: transparent; color: var(--text); border-color: var(--text); }
+  .btn-secondary:hover { background: var(--text); color: var(--bg); transform: translateY(-2px); }
+  .btn:active { transform: translateY(0); }
+
+  /* Typografia */
+  h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: -.01em; font-optical-sizing: auto; }
+  h1 { font-size: clamp(40px, 7vw, 120px); line-height: 1; letter-spacing: -.025em; }
+  h2 { font-size: clamp(28px, 4vw, 56px); line-height: 1.08; margin-bottom: 20px; }
+  h3 { font-size: clamp(20px, 1.2vw + 14px, 24px); line-height: 1.25; }
+  .eyebrow { display: block; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+  .lead { font-size: clamp(18px, .5vw + 16px, 21px); color: var(--muted); max-width: 62ch; margin: 0; }
+
+  /* Sekcie */
+  section { padding: var(--space) 0; }
+  .section-head { max-width: 780px; margin-bottom: clamp(40px, 5vw, 72px); }
+  .rule { border: 0; border-top: 1px solid var(--line); margin: 0; }
+
+  /* Bento mriežka s tenkými linkami medzi blokmi */
+  .bento { display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .bento > * { background: var(--bg); }
+
+  /* Fotky a SVG náhrada */
+  .photo { margin: 0; position: relative; overflow: hidden; background: var(--fb-sky); }
+  .photo img, .photo .fallback { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .photo .fallback { display: none; }
+  .photo.is-fallback img { display: none; }
+  .photo.is-fallback .fallback { display: block; }
+  .zoom img, .zoom .fallback { will-change: transform; }
+  .caption { margin-top: 12px; font-size: 13px; color: var(--muted); }
+
+  /* Úvod */
+  .hero { padding: 0; }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); min-height: 88vh; min-height: 88svh; }
+  .hero-text { display: flex; flex-direction: column; justify-content: flex-end; padding: 96px clamp(24px, 4vw, 64px) clamp(40px, 4vw, 64px) max(var(--gutter), calc((100vw - 1280px) / 2 + var(--gutter))); }
+  .hero h1 { margin-bottom: 24px; max-width: 11ch; }
+  .hero-text .lead-1 { font-size: clamp(19px, .6vw + 16px, 23px); color: var(--text); max-width: 34ch; margin: 0 0 16px; line-height: 1.5; }
+  .hero-text p { margin: 0 0 12px; color: var(--muted); max-width: 54ch; }
+  .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .hero-photo { display: flex; flex-direction: column; }
+  .hero-photo .photo { flex: 1; min-height: 420px; }
+  .hero-photo .caption { padding: 0 var(--gutter) 0 16px; margin-bottom: 16px; }
+
+  .stats { grid-template-columns: repeat(4, 1fr); margin-top: clamp(48px, 6vw, 88px); }
+  .stat { padding: clamp(24px, 3vw, 40px); }
+  .stat:first-child { grid-column: span 2; }
+  .stat b { display: block; font-family: var(--serif); font-weight: 600; font-size: clamp(48px, 6vw, 96px); line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .stat:first-child b { font-size: clamp(56px, 8vw, 128px); color: var(--accent); }
+  .stat span { display: block; margin-top: 14px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+
+  /* Časti rakety */
+  .parts-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(32px, 4vw, 64px); align-items: start; }
+  .schema { position: sticky; top: 84px; }
+  .schema svg { width: 100%; height: auto; display: block; max-height: 82vh; }
+  .schema-note { text-align: center; font-size: 13px; color: var(--muted); margin: 14px 0 0; }
+  .parts-list { grid-template-columns: 1fr 1fr; margin: 0; padding: 0; list-style: none; }
+  .part { padding: clamp(22px, 2.4vw, 32px); display: flex; gap: 16px; align-items: flex-start; }
+  .part p { margin: 8px 0 0; color: var(--muted); font-size: 16px; line-height: 1.55; }
+  .part.wide { grid-column: 1 / -1; }
+  .part.wide h3 { font-size: clamp(24px, 1.6vw + 16px, 32px); }
+  .part.wide p { font-size: 17px; max-width: 52ch; }
+  .badge-num { flex: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 14px; border: 1px solid var(--text); color: var(--text); margin-top: 2px; }
+  .badge-num.stage { background: var(--text); color: var(--bg); }
+
+  /* Schéma: farby z premenných */
+  .s-steel { fill: var(--steel); }
+  .s-hi { fill: var(--steel-light); }
+  .s-shield { fill: var(--shield); }
+  .s-flap { fill: var(--flap); }
+  .s-dark { fill: var(--metal-dark); }
+  .s-grid { fill: var(--flap); }
+  .s-grid-hole { fill: var(--steel); }
+  .s-dash { stroke: var(--metal-dark); fill: none; }
+  .s-lead { stroke: var(--muted); }
+  .s-bracket { stroke: var(--text); fill: none; }
+  .s-ground { stroke: var(--line); }
+  .s-dot { fill: var(--accent); }
+  .s-num { fill: var(--on-accent); }
+  .s-label { fill: var(--text); }
+  .s-small { fill: var(--muted); }
+
+  /* Časová os */
+  .overview { margin-bottom: clamp(56px, 7vw, 96px); }
+  .tally { grid-template-columns: repeat(4, 1fr); }
+  .tally > div { padding: clamp(20px, 2.4vw, 32px); }
+  .tally b { display: block; font-family: var(--serif); font-weight: 600; font-size: clamp(44px, 5vw, 80px); line-height: 1; letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
+  .tally span { display: block; margin-top: 12px; font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .tally .dim b { color: var(--muted); }
+  .overview-bottom { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; padding: 24px 0 0; }
+  .legend { display: flex; gap: 20px; flex-wrap: wrap; font-size: 14px; color: var(--muted); }
+  .legend span { display: inline-flex; align-items: center; gap: 8px; }
+  .legend i { display: inline-block; width: 12px; height: 12px; border-radius: 50%; }
+  .k-ok { background: var(--text); }
+  .k-fail { border: 1.5px solid var(--muted); }
+  .k-plan { border: 1.5px dashed var(--muted); }
+  .dots { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dots a { width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 14px; text-decoration: none; font-variant-numeric: tabular-nums; transition: transform .15s var(--ease), background-color .15s, color .15s; }
+  .dots a:hover { transform: translateY(-2px); }
+  .ok-bg { background: var(--text); color: var(--bg); }
+  .ok-bg:hover { background: var(--accent); color: var(--on-accent); }
+  .fail-bg { border: 1.5px solid var(--muted); color: var(--muted); }
+  .fail-bg:hover { border-color: var(--text); color: var(--text); }
+  .plan-bg { border: 1.5px dashed var(--muted); color: var(--muted); }
+  .plan-bg:hover { border-color: var(--text); color: var(--text); }
+
+  .year { display: grid; grid-template-columns: 220px 1fr; gap: 32px; border-top: 1px solid var(--line); }
+  .year-label { font-family: var(--serif); font-weight: 600; font-size: clamp(36px, 4vw, 64px); line-height: 1; letter-spacing: -.02em; padding-top: 28px; }
+  .year-label small { display: block; margin-top: 12px; font-family: var(--sans); font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  .flights { display: grid; }
+  .flight { position: relative; padding: 28px 0 28px 32px; display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; align-items: baseline; }
+  .flight + .flight { border-top: 1px solid var(--line); }
+  .flight::before { content: ""; position: absolute; left: 0; top: 38px; width: 12px; height: 12px; border-radius: 50%; }
+  .flight.ok::before { background: var(--text); }
+  .flight.fail::before { border: 1.5px solid var(--muted); }
+  .flight.plan::before { border: 1.5px dashed var(--muted); }
+  .flight.latest::before { background: var(--accent); }
+  .flight h3 { font-size: clamp(22px, 1vw + 16px, 26px); }
+  .flight .meta { font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .flight p { grid-column: 1 / -1; margin: 8px 0 0; color: var(--text); max-width: 64ch; }
+  .tag { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; white-space: nowrap; padding: 6px 12px; border-radius: 999px; }
+  .tag.ok { border: 1px solid var(--text); color: var(--text); }
+  .tag.fail { border: 1px solid var(--line); color: var(--muted); }
+  .tag.plan { border: 1px dashed var(--muted); color: var(--muted); }
+  .sources { margin-top: clamp(56px, 7vw, 96px); padding-top: 32px; border-top: 1px solid var(--text); font-size: 15px; color: var(--muted); }
+  .sources h3 { font-size: 22px; color: var(--text); margin-bottom: 16px; }
+  .sources ul { margin: 0; padding: 0; list-style: none; columns: 2; column-gap: 48px; }
+  .sources li { padding: 12px 0; border-top: 1px solid var(--line); break-inside: avoid; }
+
+  /* Štarty a video */
+  .launch-photos { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(16px, 2vw, 32px); margin-bottom: clamp(56px, 7vw, 112px); }
+  .launch-photos .photo { aspect-ratio: 4 / 5; }
+  .video-card { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
+  .video-frame { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: var(--fb-sky); }
+  .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .video-poster { position: absolute; inset: 0; display: block; }
+  .video-poster::after { content: ""; position: absolute; inset: 0; background: var(--veil); opacity: .35; transition: opacity .15s; }
+  .video-poster:hover::after { opacity: .2; }
+  .play-btn { position: absolute; left: 50%; top: 50%; z-index: 1; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; transition: transform .15s var(--ease), background-color .15s; }
+  .play-btn svg { width: 28px; height: 28px; margin-left: 4px; }
+  .video-poster:hover .play-btn { background: var(--accent-2); transform: translateY(-2px); }
+  .poster-label { position: absolute; left: 16px; top: 16px; z-index: 1; font-size: 13px; font-weight: 600; color: var(--text); background: var(--bg); padding: 6px 12px; border-radius: 999px; }
+  .video-info h3 { font-size: clamp(26px, 2.4vw, 38px); margin-bottom: 14px; }
+  .video-info p { margin: 0 0 16px; color: var(--muted); }
+  .video-info ul { margin: 0 0 28px; padding: 0; list-style: none; }
+  .video-info li { padding: 10px 0; border-top: 1px solid var(--line); font-size: 16px; }
+  .video-info li:last-child { border-bottom: 1px solid var(--line); }
+  .video-link-note { font-size: 14px; color: var(--muted); margin: 18px 0 0 !important; }
+  .video-link-note a { word-break: break-all; }
+
+  /* Pätička */
+  footer { border-top: 1px solid var(--line); padding: 40px 0 56px; font-size: 13px; color: var(--muted); }
+  footer p { margin: 6px 0; max-width: 110ch; }
+  footer a { color: var(--muted); }
+  footer a:hover { color: var(--text); }
+
+  /* Jemný pohyb (len s triedou .motion) */
+  .motion .rv { opacity: 0; transform: translate3d(0, 24px, 0); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+  .motion .rv.in { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; }
+    .btn:hover, .dots a:hover, .video-poster:hover .play-btn { transform: none; }
+  }
+
+  /* Tablet a mobil */
+  @media (max-width: 1000px) {
+    .hero-grid { grid-template-columns: 1fr; min-height: 0; }
+    .hero-text { min-height: 85vh; min-height: 85svh; padding: 112px var(--gutter) 48px; }
+    .hero-photo .photo { aspect-ratio: 4 / 5; flex: none; min-height: 0; }
+    .hero-photo .caption { padding: 0 var(--gutter); }
+    .parts-grid, .video-card { grid-template-columns: 1fr; }
+    .schema { position: static; max-width: 560px; margin: 0 auto; }
+    .schema svg { max-height: none; }
+    .year { grid-template-columns: 1fr; gap: 0; }
+    .sources ul { columns: 1; }
+  }
+  @media (max-width: 640px) {
+    .nav { display: none; }
+    .stats { grid-template-columns: 1fr; }
+    .stat:first-child { grid-column: auto; }
+    .tally { grid-template-columns: 1fr 1fr; }
+    .parts-list { grid-template-columns: 1fr; }
+    .launch-photos { grid-template-columns: 1fr; }
+    .flight { grid-template-columns: 1fr; padding-left: 28px; }
+    .flight .tag { justify-self: start; margin: 4px 0; }
+    .hero-actions .btn { flex: 1 1 100%; }
+    .dots a { width: 44px; height: 44px; font-size: 13px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Zdieľaná SVG ilustrácia: zobrazí sa namiesto fotky, keď sa fotka nenačíta -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="ilu-raketa" viewBox="0 0 400 500">
+      <rect width="400" height="500" style="fill:var(--fb-sky)"/>
+      <path d="M182 330 Q200 470 218 330 Z" style="fill:var(--accent)"/>
+      <path d="M186 110 C186 82 194 64 200 60 C206 64 214 82 214 110 Z" style="fill:var(--steel)"/>
+      <rect x="186" y="110" width="28" height="220" style="fill:var(--steel)"/>
+      <rect x="203" y="70" width="6" height="260" style="fill:var(--steel-light)"/>
+      <path d="M200 60 C194 64 186 82 186 110 L186 200 L200 200 Z" style="fill:var(--shield)"/>
+      <rect x="186" y="198" width="28" height="8" style="fill:var(--metal-dark)"/>
+      <path d="M186 90 L176 100 L176 114 L186 116 Z M214 90 L224 100 L224 114 L214 116 Z" style="fill:var(--flap)"/>
+      <path d="M186 168 L172 178 L172 196 L186 197 Z M214 168 L228 178 L228 196 L214 197 Z" style="fill:var(--flap)"/>
+      <rect x="176" y="212" width="10" height="14" style="fill:var(--flap)"/><rect x="214" y="212" width="10" height="14" style="fill:var(--flap)"/>
+      <rect x="0" y="470" width="400" height="30" style="fill:var(--line)"/>
+    </symbol>
+  </defs>
+</svg>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="#uvod">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c3.4 2.8 4.8 6.8 4.8 11.4V24h-9.6v-9.6C11.2 9.8 12.6 5.8 16 3Z" fill="none" stroke-width="1.8"/><path class="flame" d="M13.6 25.5h4.8L16 30Z"/></svg>
+      Starship
+    </a>
+    <nav class="nav" aria-label="Hlavná navigácia">
+      <a href="#casti">Časti rakety</a>
+      <a href="#harmonogram">Harmonogram</a>
+      <a href="#starty">Štarty a video</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ÚVOD -->
+  <section class="hero" id="uvod">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <span class="eyebrow rv">SpaceX · Starbase, Texas</span>
+        <h1 class="rv">Starship: najväčšia raketa, aká kedy letela</h1>
+        <p class="lead-1 rv">Starship je dvojstupňový raketový systém spoločnosti SpaceX, najväčšia a najvýkonnejšia raketa v histórii.</p>
+        <p class="rv">Oba stupne sú navrhnuté na úplné opakované použitie: obrovský booster sa po štarte vracia k štartovacej veži a horná loď má raz pristávať rovnako.</p>
+        <p class="rv">Má vynášať veľké družice Starlink, dopraviť astronautov NASA na Mesiac v programe Artemis a neskôr aj ľudí na Mars.</p>
+        <div class="hero-actions rv">
+          <a class="btn btn-primary" href="#video">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6 4.5v11l9-5.5-9-5.5Z"/></svg>
+            Pozrieť posledný štart
+          </a>
+          <a class="btn btn-secondary" href="#harmonogram">Harmonogram letov</a>
+        </div>
+      </div>
+      <div class="hero-photo">
+        <figure class="photo zoom">
+          <img src="obrazky/starship-na-rampe.jpg"
+               data-remote="https://upload.wikimedia.org/wikipedia/commons/e/ec/SpaceX_Starship_Superheavy_Testing_February_2023_%28cropped_horizontal%29.jpg"
+               alt="Raketa Starship s boosterom Super Heavy na štartovacej rampe v Starbase pri zapadajúcom slnku"
+               onerror="photoFallback(this)">
+          <svg class="fallback" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustrácia rakety Starship"><use href="#ilu-raketa"/></svg>
+        </figure>
+        <p class="caption">Starship na rampe v Starbase, február 2023</p>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="bento stats">
+        <div class="stat rv"><b data-count="124" data-prefix="~" data-suffix=" m">~124 m</b><span>výška celej zostavy (verzia 3)</span></div>
+        <div class="stat rv"><b data-count="39">39</b><span>motorov Raptor (33 + 6)</span></div>
+        <div class="stat rv"><b data-count="14">14</b><span>testovacích letov do októbra 2026</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ČASTI RAKETY -->
+  <section id="casti">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow rv">Konštrukcia</span>
+        <h2 class="rv">Z čoho sa Starship skladá</h2>
+        <p class="lead rv">Raketa má dva stupne postavené na sebe. Čísla v schéme zodpovedajú kartám vpravo.</p>
+      </div>
+
+      <div class="parts-grid">
+        <div class="schema rv">
+          <svg viewBox="0 0 720 1000" role="img" aria-labelledby="schema-title">
+            <title id="schema-title">Schéma rakety Starship s popiskami častí</title>
+            <defs>
+              <pattern id="grid" width="6" height="6" patternUnits="userSpaceOnUse">
+                <rect width="6" height="6" class="s-grid"/>
+                <rect x="1.2" y="1.2" width="3.6" height="3.6" class="s-grid-hole"/>
+              </pattern>
+            </defs>
+
+            <!-- Zátvorky stupňov -->
+            <g class="s-bracket" stroke-width="1.5">
+              <path d="M74 40 H60 V418 H74"/>
+              <path d="M74 442 H60 V962 H74"/>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="17" font-weight="600" letter-spacing="2" class="s-label" text-anchor="middle">
+              <text transform="translate(40 229) rotate(-90)">A · LOĎ STARSHIP · ~52 m</text>
+              <text transform="translate(40 702) rotate(-90)">B · SUPER HEAVY · ~72 m</text>
+            </g>
+
+            <!-- Loď -->
+            <path d="M326 150 C326 90 345 45 360 40 C375 45 394 90 394 150 Z" class="s-steel"/>
+            <rect x="326" y="150" width="68" height="268" class="s-steel"/>
+            <rect x="372" y="60" width="10" height="358" class="s-hi"/>
+            <path d="M360 40 C345 45 326 90 326 150 L326 418 L360 418 Z" class="s-shield"/>
+            <path d="M326 105 L302 128 L302 160 L326 165 Z M394 105 L418 128 L418 160 L394 165 Z" class="s-flap"/>
+            <path d="M326 340 L292 360 L292 410 L326 414 Z M394 340 L428 360 L428 410 L394 414 Z" class="s-flap"/>
+            <rect x="366" y="178" width="22" height="56" rx="3" class="s-dash" stroke-width="2" stroke-dasharray="4 3"/>
+
+            <!-- Medzistupeň -->
+            <rect x="326" y="418" width="68" height="24" class="s-dark"/>
+            <g class="s-flap">
+              <rect x="332" y="423" width="4" height="14"/><rect x="341" y="423" width="4" height="14"/>
+              <rect x="350" y="423" width="4" height="14"/><rect x="359" y="423" width="4" height="14"/>
+              <rect x="368" y="423" width="4" height="14"/><rect x="377" y="423" width="4" height="14"/>
+              <rect x="386" y="423" width="4" height="14"/>
+            </g>
+
+            <!-- Booster -->
+            <rect x="326" y="442" width="68" height="488" class="s-steel"/>
+            <rect x="372" y="442" width="10" height="458" class="s-hi"/>
+            <rect x="302" y="452" width="24" height="34" fill="url(#grid)"/>
+            <rect x="394" y="452" width="24" height="34" fill="url(#grid)"/>
+            <line x1="326" y1="690" x2="394" y2="690" class="s-dash" stroke-width="2" stroke-dasharray="5 4"/>
+            <g font-family="Inter, sans-serif" font-size="15" font-weight="600" class="s-small" text-anchor="middle">
+              <text x="356" y="575">CH₄</text>
+              <text x="356" y="805">LOX</text>
+            </g>
+            <rect x="326" y="900" width="68" height="30" class="s-dark"/>
+            <g class="s-flap">
+              <path d="M329 930 L326 962 L346 962 L343 930 Z"/>
+              <path d="M345 930 L342 962 L362 962 L359 930 Z"/>
+              <path d="M361 930 L358 962 L378 962 L375 930 Z"/>
+              <path d="M377 930 L374 962 L394 962 L391 930 Z"/>
+            </g>
+            <line x1="230" y1="975" x2="490" y2="975" class="s-ground" stroke-width="2"/>
+
+            <!-- Popisky -->
+            <g class="s-lead" stroke-width="1.2">
+              <line x1="388" y1="206" x2="455" y2="206"/>
+              <line x1="302" y1="140" x2="265" y2="140"/>
+              <line x1="340" y1="270" x2="265" y2="270"/>
+              <line x1="292" y1="388" x2="265" y2="388"/>
+              <line x1="394" y1="430" x2="455" y2="430"/>
+              <line x1="418" y1="469" x2="455" y2="469"/>
+              <line x1="394" y1="640" x2="455" y2="640"/>
+              <line x1="394" y1="950" x2="455" y2="950"/>
+            </g>
+            <g class="s-dot">
+              <circle cx="470" cy="206" r="15"/><circle cx="250" cy="140" r="15"/>
+              <circle cx="250" cy="270" r="15"/><circle cx="250" cy="388" r="15"/>
+              <circle cx="470" cy="430" r="15"/><circle cx="470" cy="469" r="15"/>
+              <circle cx="470" cy="640" r="15"/><circle cx="470" cy="950" r="15"/>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="14" font-weight="600" class="s-num" text-anchor="middle">
+              <text x="470" y="211">1</text><text x="250" y="145">2</text>
+              <text x="250" y="275">3</text><text x="250" y="393">4</text>
+              <text x="470" y="435">5</text><text x="470" y="474">6</text>
+              <text x="470" y="645">7</text><text x="470" y="955">8</text>
+            </g>
+            <g font-family="Inter, sans-serif" font-size="22" font-weight="500" class="s-label">
+              <text x="494" y="213">Nákladný priestor</text>
+              <text x="226" y="147" text-anchor="end">Predné klapky</text>
+              <text x="226" y="277" text-anchor="end">Tepelný štít</text>
+              <text x="226" y="395" text-anchor="end">Zadné klapky</text>
+              <text x="494" y="437">Medzistupeň</text>
+              <text x="494" y="476">Mriežkové kormidlá</text>
+              <text x="494" y="647">Palivové nádrže</text>
+              <text x="494" y="957">Motory Raptor</text>
+            </g>
+          </svg>
+          <p class="schema-note">Vlastná zjednodušená schéma, nie je v presnej mierke.</p>
+        </div>
+
+        <ul class="bento parts-list">
+          <li class="part wide rv">
+            <span class="badge-num stage">A</span>
+            <div><h3>Loď Starship (2. stupeň)</h3>
+            <p>Horná časť so šiestimi motormi, ktorá letí až na obežnú dráhu a nesie náklad, palivo alebo v budúcnosti posádku.</p></div>
+          </li>
+          <li class="part wide rv">
+            <span class="badge-num stage">B</span>
+            <div><h3>Super Heavy (1. stupeň)</h3>
+            <p>Obrovský booster s 33 motormi, ktorý loď vynesie do výšky asi 70 km a potom sa vráti späť k štartovacej veži.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">1</span>
+            <div><h3>Nákladný priestor</h3>
+            <p>Priestor v prednej časti lode, z ktorého sa cez bočný otvor vypúšťajú družice Starlink.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">2</span>
+            <div><h3>Predné klapky</h3>
+            <p>Dve menšie pohyblivé plochy pri špičke, ktorými loď riadi svoju polohu pri páde atmosférou.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">3</span>
+            <div><h3>Tepelný štít</h3>
+            <p>Tisíce čiernych keramických dlaždíc chránia jednu stranu lode pred teplotou okolo 1 400 °C pri návrate.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">4</span>
+            <div><h3>Zadné klapky</h3>
+            <p>Väčší pár klapiek pri spodku lode, ktorý spolu s prednými udržiava stabilný „brušný“ let atmosférou.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">5</span>
+            <div><h3>Medzistupeň</h3>
+            <p>Prstenec s otvormi, cez ktoré unikajú plyny, keď loď zapáli motory ešte pred oddelením od boostera.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">6</span>
+            <div><h3>Mriežkové kormidlá</h3>
+            <p>Štyri mriežkové plochy navrchu boostera ho pri návrate navigujú a slúžia aj na zachytenie ramenami veže.</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">7</span>
+            <div><h3>Palivové nádrže</h3>
+            <p>Väčšinu oboch stupňov tvoria nádrže s kvapalným metánom (CH₄) a kvapalným kyslíkom (LOX).</p></div>
+          </li>
+          <li class="part rv">
+            <span class="badge-num">8</span>
+            <div><h3>Motory Raptor</h3>
+            <p>Motory spaľujúce metán s kyslíkom, ktoré sa dajú vo vesmíre opakovane zapáliť a pri pristávaní riadiť.</p></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- HARMONOGRAM -->
+  <section id="harmonogram">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow rv">Harmonogram letov</span>
+        <h2 class="rv">Všetky testovacie lety Starship</h2>
+        <p class="lead rv">Od prvého štartu v apríli 2023 až po prvý let na obežnú dráhu v septembri 2026 a lety plánované do konca roka. Stav k 19. 10. 2026.</p>
+      </div>
+
+      <div class="overview rv">
+        <div class="bento tally">
+          <div><b data-count="14">14</b><span>uskutočnených letov</span></div>
+          <div><b data-count="9">9</b><span>úspešných</span></div>
+          <div class="dim"><b data-count="5">5</b><span>neúspešných</span></div>
+          <div class="dim"><b data-count="2">2</b><span>plánované</span></div>
+        </div>
+        <div class="overview-bottom">
+          <div class="dots" aria-label="Prehľad letov podľa výsledku">
+            <a href="#let-1" class="fail-bg" title="Let 1 – neúspech">1</a>
+            <a href="#let-2" class="fail-bg" title="Let 2 – neúspech">2</a>
+            <a href="#let-3" class="ok-bg" title="Let 3 – úspech">3</a>
+            <a href="#let-4" class="ok-bg" title="Let 4 – úspech">4</a>
+            <a href="#let-5" class="ok-bg" title="Let 5 – úspech">5</a>
+            <a href="#let-6" class="ok-bg" title="Let 6 – úspech">6</a>
+            <a href="#let-7" class="fail-bg" title="Let 7 – neúspech">7</a>
+            <a href="#let-8" class="fail-bg" title="Let 8 – neúspech">8</a>
+            <a href="#let-9" class="fail-bg" title="Let 9 – neúspech">9</a>
+            <a href="#let-10" class="ok-bg" title="Let 10 – úspech">10</a>
+            <a href="#let-11" class="ok-bg" title="Let 11 – úspech">11</a>
+            <a href="#let-12" class="ok-bg" title="Let 12 – úspech">12</a>
+            <a href="#let-13" class="ok-bg" title="Let 13 – úspech">13</a>
+            <a href="#let-14" class="ok-bg" title="Let 14 – úspech">14</a>
+            <a href="#let-15" class="plan-bg" title="Let 15 – plánovaný">15</a>
+            <a href="#let-16" class="plan-bg" title="Let 16 – plánovaný">16</a>
+          </div>
+          <div class="legend">
+            <span><i class="k-ok"></i>Úspech</span>
+            <span><i class="k-fail"></i>Neúspech</span>
+            <span><i class="k-plan"></i>Plánovaný</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="year">
+          <div class="year-label rv">2023<small>Verzia 1</small></div>
+          <div class="flights">
+            <article class="flight fail rv" id="let-1">
+              <h3>Let 1</h3><span class="tag fail">Neúspech</span>
+              <span class="meta">20. 4. 2023 · Booster 7 / Loď 24</span>
+              <p>Raketa stratila riadenie ešte pred oddelením stupňov a štart vážne poškodil rampu.</p>
+            </article>
+            <article class="flight fail rv" id="let-2">
+              <h3>Let 2</h3><span class="tag fail">Neúspech</span>
+              <span class="meta">18. 11. 2023 · Booster 9 / Loď 25</span>
+              <p>Stupne sa prvýkrát oddelili, no booster sa stratil po výpadku motorov a loď zničil autodeštrukčný systém po požiari.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="year">
+          <div class="year-label rv">2024<small>Verzia 1</small></div>
+          <div class="flights">
+            <article class="flight ok rv" id="let-3">
+              <h3>Let 3</h3><span class="tag ok">Úspech</span>
+              <span class="meta">14. 3. 2024 · Booster 10 / Loď 28</span>
+              <p>Loď dosiahla plánovanú dráhu; booster zlyhal pri pristávacom zážihu a loď sa pri návrate rozpadla.</p>
+            </article>
+            <article class="flight ok rv" id="let-4">
+              <h3>Let 4</h3><span class="tag ok">Úspech</span>
+              <span class="meta">6. 6. 2024 · Booster 11 / Loď 29</span>
+              <p>Oba stupne prvýkrát riadene dosadli na hladinu oceánu, loď asi 6 km od cieľa.</p>
+            </article>
+            <article class="flight ok rv" id="let-5">
+              <h3>Let 5</h3><span class="tag ok">Úspech</span>
+              <span class="meta">13. 10. 2024 · Booster 12 / Loď 30</span>
+              <p>Štartovacia veža prvýkrát zachytila vracajúci sa booster svojimi ramenami.</p>
+            </article>
+            <article class="flight ok rv" id="let-6">
+              <h3>Let 6</h3><span class="tag ok">Úspech</span>
+              <span class="meta">19. 11. 2024 · Booster 13 / Loď 31</span>
+              <p>Booster odklonili do mora, loď prvýkrát pristála na hladine za denného svetla.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="year">
+          <div class="year-label rv">2025<small>Verzia 2</small></div>
+          <div class="flights">
+            <article class="flight fail rv" id="let-7">
+              <h3>Let 7</h3><span class="tag fail">Neúspech</span>
+              <span class="meta">16. 1. 2025 · Booster 14 / Loď 33</span>
+              <p>Prvý let verzie 2: veža booster zachytila, loď sa stratila po úniku paliva.</p>
+            </article>
+            <article class="flight fail rv" id="let-8">
+              <h3>Let 8</h3><span class="tag fail">Neúspech</span>
+              <span class="meta">6. 3. 2025 · Booster 15 / Loď 34</span>
+              <p>Booster opäť zachytený vežou, loď stratila riadenie aj spojenie.</p>
+            </article>
+            <article class="flight fail rv" id="let-9">
+              <h3>Let 9</h3><span class="tag fail">Neúspech</span>
+              <span class="meta">27. 5. 2025 · Booster 14 (2. let) / Loď 35</span>
+              <p>Prvé opätovné použitie boostera; booster sa stratil a loď sa po úniku paliva rozpadla.</p>
+            </article>
+            <article class="flight ok rv" id="let-10">
+              <h3>Let 10</h3><span class="tag ok">Úspech</span>
+              <span class="meta">26. 8. 2025 · Booster 16 / Loď 37</span>
+              <p>Booster riadene dosadol na hladinu a loď pristála len 3 metre od cieľa.</p>
+            </article>
+            <article class="flight ok rv" id="let-11">
+              <h3>Let 11</h3><span class="tag ok">Úspech</span>
+              <span class="meta">13. 10. 2025 · Booster 15 (2. let) / Loď 38</span>
+              <p>Posledný let verzie 2, oba stupne leteli riadene a loď pristála v cieli.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="year">
+          <div class="year-label rv">2026<small>Verzia 3</small></div>
+          <div class="flights">
+            <article class="flight ok rv" id="let-12">
+              <h3>Let 12</h3><span class="tag ok">Úspech</span>
+              <span class="meta">22. 5. 2026 · Booster 19 / Loď 39</span>
+              <p>Premiéra verzie 3 a novej rampy 2; loď vypustila makety družíc a riadene pristála, booster dopadol na vodu príliš rýchlo.</p>
+            </article>
+            <article class="flight ok rv" id="let-13">
+              <h3>Let 13</h3><span class="tag ok">Úspech</span>
+              <span class="meta">24. 7. 2026 · Booster 20 / Loď 40</span>
+              <p>Booster sa stratil pri pristávacom zážihu, loď riadene dosadla na hladinu a prežila aj prevrátenie.</p>
+            </article>
+            <article class="flight ok latest rv" id="let-14">
+              <h3>Let 14 · posledný štart</h3><span class="tag ok">Úspech</span>
+              <span class="meta">28. 9. 2026 · Booster 21 / Loď 41</span>
+              <p>Prvý let na obežnú dráhu: loď vypustila 26 družíc Starlink V3 napriek výpadku jedného motora a vrátila sa skôr, než bolo plánované.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="year">
+          <div class="year-label rv">Ďalej<small>predbežne</small></div>
+          <div class="flights">
+            <article class="flight plan rv" id="let-15">
+              <h3>Let 15</h3><span class="tag plan">Najskôr 8. 11. 2026</span>
+              <span class="meta">Booster 22 / Loď 42 · Starbase, rampa 2</span>
+              <p>Ďalší let na nízku obežnú dráhu; možný je aj prvý pokus o zachytenie lode vežou, zatiaľ nepotvrdený.</p>
+            </article>
+            <article class="flight plan rv" id="let-16">
+              <h3>Let 16</h3><span class="tag plan">Najskôr 10. 12. 2026</span>
+              <span class="meta">Verzia 3 · Florida, KSC LC-39A</span>
+              <p>Podľa veľmi predbežných plánov prvý štart z Floridy s družicami Starlink.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="sources rv">
+        <h3>Zdroje harmonogramu</h3>
+        <ul>
+          <li><a href="https://en.wikipedia.org/wiki/SpaceX_Starship_flight_tests" target="_blank" rel="noopener">Wikipedia: SpaceX Starship flight tests</a> – zoznam letov, dátumy, výsledky a plánované lety (stav k 19. 10. 2026)</li>
+          <li><a href="https://www.space.com/space-exploration/launches-spacecraft/spacex-starship-megarocket-flight-14-orbital-launch-success" target="_blank" rel="noopener">Space.com: SpaceX launches Starship into orbit for 1st time (Let 14)</a></li>
+          <li><a href="https://www.cnbc.com/2026/09/28/spacex-prepares-to-send-starship-rocket-to-orbit-for-first-time.html" target="_blank" rel="noopener">CNBC, 28. 9. 2026: SpaceX launches its massive Starship rocket into orbit for the first time</a></li>
+          <li><a href="https://www.npr.org/2026/05/23/nx-s1-5832402/spacex-biggest-starship-flight" target="_blank" rel="noopener">NPR, 23. 5. 2026: SpaceX launches its biggest, most beefed-up Starship yet (Let 12)</a></li>
+        </ul>
+        <p style="margin:16px 0 0">Termíny budúcich letov sú predbežné a SpaceX ich často posúva.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ŠTARTY A VIDEO -->
+  <section id="starty">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow rv">Štarty</span>
+        <h2 class="rv">Ako vyzerá štart Starship</h2>
+        <p class="lead rv">Pri štarte naraz zaberie 33 motorov boostera. Je to najsilnejší ťah, aký kedy raketa vyvinula.</p>
+      </div>
+
+      <div class="launch-photos">
+        <div class="rv">
+          <figure class="photo zoom">
+            <img src="obrazky/start-let-11.jpg"
+                 data-remote="https://upload.wikimedia.org/wikipedia/commons/d/d9/Starship_lifted_off_from_Starbase_during_flight_test_11.jpg"
+                 alt="Starship odlieta zo Starbase počas letu 11, pod raketou jasný plameň motorov"
+                 onerror="photoFallback(this)" loading="lazy">
+            <svg class="fallback" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustrácia štartujúcej rakety"><use href="#ilu-raketa"/></svg>
+          </figure>
+          <p class="caption">Štart letu 11, 13. 10. 2025</p>
+        </div>
+        <div class="rv">
+          <figure class="photo zoom">
+            <img src="obrazky/stupanie-let-2.jpg"
+                 data-remote="https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/Starship-IFT2-ascent.jpg/1280px-Starship-IFT2-ascent.jpg"
+                 alt="Starship stúpa nad Texasom počas letu 2 s dlhým plameňom za sebou"
+                 onerror="photoFallback(this)" loading="lazy">
+            <svg class="fallback" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ilustrácia stúpajúcej rakety"><use href="#ilu-raketa"/></svg>
+          </figure>
+          <p class="caption">Stúpanie počas letu 2, 18. 11. 2023</p>
+        </div>
+      </div>
+
+      <div class="video-card rv" id="video">
+        <div class="video-frame" id="video-frame">
+          <!-- Náhľad videa: ukáže sa, keď je stránka otvorená zo súboru (file://),
+               kde YouTube vložený prehrávač nespustí (chyba 153). -->
+          <a class="video-poster photo" href="https://www.youtube.com/watch?v=s2U54BS25bE" target="_blank" rel="noopener" aria-label="Prehrať video na YouTube">
+            <img src="obrazky/video-nahlad-let-14.jpg"
+                 data-remote="https://i.ytimg.com/vi/s2U54BS25bE/maxresdefault.jpg"
+                 alt="Náhľad videa zo štartu letu 14"
+                 onerror="photoFallback(this)">
+            <svg class="fallback" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#ilu-raketa"/></svg>
+            <span class="play-btn" aria-hidden="true"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M6.5 4.5v11l9-5.5-9-5.5Z"/></svg></span>
+            <span class="poster-label">Prehrať na YouTube</span>
+          </a>
+        </div>
+        <script>
+          // Na webovej adrese (http/https) sa namiesto náhľadu vloží priamo prehrávač YouTube.
+          if (location.protocol === "http:" || location.protocol === "https:") {
+            document.getElementById("video-frame").innerHTML =
+              '<iframe src="https://www.youtube-nocookie.com/embed/s2U54BS25bE"' +
+              ' title="Blastoff! SpaceX Starship launches to orbit for first time, booster splashes down"' +
+              ' allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"' +
+              ' referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>';
+          }
+        </script>
+        <div class="video-info">
+          <span class="eyebrow">Posledný štart · 28. 9. 2026</span>
+          <h3>Let 14: Starship prvýkrát na obežnej dráhe</h3>
+          <p>Video zo štartu zo Starbase v Texase, ktoré zverejnil kanál VideoFromSpace (Space.com).</p>
+          <ul>
+            <li>Booster 21 a loď 41, verzia 3</li>
+            <li>26 družíc Starlink V3 vypustených na obežnú dráhu</li>
+            <li>Booster po štarte riadene dosadol na hladinu</li>
+          </ul>
+          <a class="btn btn-primary" href="https://www.youtube.com/watch?v=s2U54BS25bE" target="_blank" rel="noopener">
+            <svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6 4.5v11l9-5.5-9-5.5Z"/></svg>
+            Otvoriť video na YouTube
+          </a>
+          <p class="video-link-note">Ak sa video vyššie nespustí, otvorte ho priamo: <a href="https://www.youtube.com/watch?v=s2U54BS25bE" target="_blank" rel="noopener">youtube.com/watch?v=s2U54BS25bE</a></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Fotky: Wikimedia Commons – <a href="https://commons.wikimedia.org/wiki/File:SpaceX_Starship_Superheavy_Testing_February_2023_(cropped_horizontal).jpg" target="_blank" rel="noopener">Mobilus In Mobili</a> (CC BY-SA 2.0), <a href="https://commons.wikimedia.org/wiki/File:Starship_lifted_off_from_Starbase_during_flight_test_11.jpg" target="_blank" rel="noopener">Shujianyang</a> (CC BY-SA 4.0), <a href="https://commons.wikimedia.org/wiki/File:Starship-IFT2-ascent.jpg" target="_blank" rel="noopener">Osunpokeh</a> (CC BY-SA 4.0). Náhľad videa: YouTube, kanál VideoFromSpace. Schéma, ikony a náhradné ilustrácie: vlastné SVG.</p>
+    <p>Neoficiálna informačná stránka, nie je spojená so spoločnosťou SpaceX.</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var motion = document.documentElement.classList.contains("motion");
+  var header = document.querySelector(".site-header");
+
+  /* Odpočítavanie čísel od nuly (1,2 s) */
+  function countUp(el) {
+    var end = parseFloat(el.dataset.count), pre = el.dataset.prefix || "", suf = el.dataset.suffix || "";
+    var t0 = performance.now();
+    function step(t) {
+      var k = Math.min(1, (t - t0) / 1200), e = 1 - Math.pow(1 - k, 3);
+      el.textContent = pre + Math.round(end * e) + suf;
+      if (k < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  /* Hlavička a jemné priblíženie fotiek pri scrollovaní */
+  var zooms = Array.prototype.slice.call(document.querySelectorAll(".zoom"));
+  var ticking = false;
+  function update() {
+    ticking = false;
+    header.classList.toggle("scrolled", window.scrollY > 24);
+    if (!motion) return;
+    var vh = window.innerHeight;
+    zooms.forEach(function (f) {
+      var r = f.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      var p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.9)));
+      var s = 1.06 - 0.06 * p;
+      f.querySelectorAll("img, .fallback").forEach(function (el) { el.style.transform = "scale(" + s.toFixed(4) + ")"; });
+    });
+  }
+  window.addEventListener("scroll", function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener("resize", update);
+  update();
+
+  if (!motion || !("IntersectionObserver" in window)) {
+    document.querySelectorAll(".rv").forEach(function (el) { el.classList.add("in"); });
+    return;
+  }
+
+  /* Sekcie sa objavia pri scrollovaní, prvky postupne po 80 ms */
+  var io = new IntersectionObserver(function (entries) {
+    entries.filter(function (e) { return e.isIntersecting; })
+      .sort(function (a, b) { return a.boundingClientRect.top - b.boundingClientRect.top || a.boundingClientRect.left - b.boundingClientRect.left; })
+      .forEach(function (e, i) {
+        e.target.style.transitionDelay = (i * 80) + "ms";
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+      });
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".rv").forEach(function (el) { io.observe(el); });
+
+  var counters = document.querySelectorAll("[data-count]");
+  counters.forEach(function (el) { el.textContent = (el.dataset.prefix || "") + "0" + (el.dataset.suffix || ""); });
+  var co = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { setTimeout(function () { countUp(e.target); }, 200); co.unobserve(e.target); }
+    });
+  }, { threshold: 0.6 });
+  counters.forEach(function (el) { co.observe(el); });
+})();
+</script>
+</body>
+</html>
